@@ -1,0 +1,109 @@
+=====================================================================
+ENTREGABLE - LABORATORIO: Creación de Elementos con JavaScript
+(DOM + Eventos)
+=====================================================================
+
+---------------------------------------------------------------------
+PASO 1 — Clonar el repositorio y explorar el proyecto
+---------------------------------------------------------------------
+
+¿Por qué hay contenido en el body al abrir el archivo en el navegador,
+pero ese mismo contenido no aparece en el código fuente de VS Code?
+
+Porque el contenido del body NO está escrito en el HTML estático.
+Es generado dinámicamente por JavaScript (js/cards.js) al cargar la
+página, usando document.createElement y appendChild. VS Code muestra
+el HTML original (antes de ejecutar JS); el navegador muestra el DOM
+ya modificado tras la ejecución del script. Por eso al inspeccionar
+con DevTools se ve el contenido, pero al ver el código fuente (Ctrl+U)
+no aparece.
+
+---------------------------------------------------------------------
+PASO 2 — Analizar el script js/cards.js
+---------------------------------------------------------------------
+
+¿createCard es una función recursiva? Justifica tu respuesta.
+
+No. Una función es recursiva cuando se llama a sí misma dentro de su
+propio cuerpo. createCard solo se invoca desde el listener del botón
+en cada clic del usuario. Aunque cada clic genera una nueva tarjeta,
+eso es ejecución repetida por eventos, no recursión.
+
+¿Qué representa el valor document en JavaScript?
+
+Es el objeto que representa todo el documento HTML cargado en el
+navegador (el árbol DOM). Es el punto de entrada para acceder y
+manipular cualquier elemento de la página mediante métodos como
+getElementById, createElement, querySelector, etc.
+
+¿Qué hace la función createElement?
+
+Crea un nuevo elemento HTML en memoria (sin insertarlo todavía en la
+página). Por ejemplo, document.createElement("div") crea un <div>
+que no es visible hasta que se añade al DOM con appendChild.
+
+¿Qué hace la función appendChild?
+
+Inserta un nodo (elemento) como último hijo de otro nodo padre. Es lo
+que hace visible en la página un elemento previamente creado en
+memoria. Ejemplo: padre.appendChild(hijo).
+
+---------------------------------------------------------------------
+PASO 3 — Modificar el addEventListener y observar el evento
+---------------------------------------------------------------------
+
+¿Qué es la variable e?
+
+Es el objeto del evento que el navegador pasa automáticamente al
+callback cuando ocurre el evento (en este caso, el click). Contiene
+información como e.target (el elemento que disparó el evento), e.type
+(tipo de evento), coordenadas, etc.
+
+¿Cómo es que el botón cambia de color y se deshabilita?
+
+Porque dentro del listener se manipula directamente e.target (el
+botón que recibió el clic):
+  - e.target.disabled = true;                       → lo deshabilita
+  - e.target.classList.remove("btn-outline-success") → quita el verde
+  - e.target.classList.add("btn-outline-danger")     → añade el rojo
+  - e.target.innerText = "Clicked";                  → cambia el texto
+Todo esto ocurre inmediatamente después del clic, por eso se ve el
+cambio de color, texto y estado deshabilitado.
+
+---------------------------------------------------------------------
+PASO 4 — Agregar un campo de texto y pasar datos a la tarjeta
+---------------------------------------------------------------------
+
+¿Por qué aún no hay cambios visibles después de crear el label y el
+input?
+
+Porque createElement solo construye el elemento en memoria; no lo
+inserta en el DOM. Aunque se le asignen clases y texto, no aparece
+en la página hasta que se usa appendChild para añadirlo a un
+elemento padre que ya esté en el DOM.
+
+¿Cómo se pasa el valor del input a la nueva tarjeta?
+
+El valor se obtiene con inputFormControl.value y se pasa como
+argumento a createCard(inputFormControl.value). Dentro de la
+función, el parámetro se usa como innerText del elemento h5 de la
+nueva tarjeta, de modo que el texto escrito por el usuario se
+convierte en el título de la siguiente tarjeta creada.
+
+---------------------------------------------------------------------
+PASO 5 — Subir los cambios al repositorio
+---------------------------------------------------------------------
+
+Comandos ejecutados:
+
+  git add entregable.txt
+  git add js/cards.js
+  git checkout -b entregable
+  git commit -m "entregable"
+  git push origin entregable
+
+Se solicita Pull Request desde la rama "entregable" hacia "main".
+
+=====================================================================
+FIN DEL ENTREGABLE
+=====================================================================
